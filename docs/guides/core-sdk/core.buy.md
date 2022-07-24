@@ -34,7 +34,7 @@ const config = getConfig(ethNetwork);
 
 ### Wallet
 
-You can connect a wallet either using a private key of your L1 Ethereum wallet or using a `Provider` like Metamask. For this guide we are using [ethers](https://www.npmjs.com/package/ethers), buy you are free to use any web 3 library.
+You can connect a wallet either using a private key of your L1 Ethereum wallet or using a `Provider` like Metamask. For this guide we are using [ethers](https://www.npmjs.com/package/ethers), buy you are free to use any web3 library.
 
 We also need to generate L2 Stark Wallet using the L1 Ethereum wallet which will be later used to sign the buy order. This is achieved with the help of `generateStarkWallet` method.
 
