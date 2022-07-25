@@ -137,6 +137,7 @@ import { Wallet } from '@ethersproject/wallet';
 import {
   getConfig,
   generateStarkWallet,
+  AssetsApi,
   BaseSigner,
   GetSignableOrderRequest,
   WalletConnection,
@@ -179,6 +180,14 @@ const createOrder = async () => {
   now.setMonth(now.getMonth() + 1);
   const timestamp = Math.floor(now.getTime() / 1000);
 
+  // Get the Token Details or can be added if prefetched
+  // More details on https://docs.x.immutable.com/docs/imx-core-sdk-ts#standard-api-requests
+  const assetApi = new AssetsApi(config.api);
+  const tokenDetails = await assetApi.getAsset({
+    tokenId: "TOKEN ID HERE", // TOKEN ID LIKE 107
+    tokenAddress: collectionAddress, // COLLECTION ADDRESS
+  });
+
   // Object that implements the WalletConnection interface
   const walletConnection: WalletConnection = {
     l1Signer,
@@ -205,7 +214,7 @@ const createOrder = async () => {
     token_buy: {
       type: 'ETH', // Or 'ERC20' if it's another currency
       data: {
-        token_address: '', // Or the token address of the ERC20 token
+        token_address: '', // Optional: Or the token address of the ERC20 token
         decimals: 18, // decimals used by the token
       },
     },
@@ -215,10 +224,10 @@ const createOrder = async () => {
       type: 'ERC721',
       data: {
         // The collection address of this asset
-        token_address: collectionAddress,
+        token_address: tokenDetails.data.token_address,,
 
         // The ID of this asset
-        token_id: tokenID,
+        token_id: tokenDetails.data.token_id, //eg: 117 i.e NFT ID
       },
     },
 
